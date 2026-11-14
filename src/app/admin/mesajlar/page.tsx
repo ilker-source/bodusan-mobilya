@@ -1,0 +1,2 @@
+import { db } from "@/lib/db";
+export default async function Mesajlar(){const m=await db.message.findMany({orderBy:{createdAt:"desc"}});return (<div style={{padding:20}}><h1>Gelen Kutusu</h1><a href="/admin">Geri don</a>{m.length===0?<p>Henuz mesaj yok.</p>:m.map(x=>(<div key={x.id} style={{border:"1px solid #ccc",margin:"10px 0",padding:10}}><b>{x.type}</b> - {x.name} - {x.email}<p>{x.content}</p></div>))}</div>);}

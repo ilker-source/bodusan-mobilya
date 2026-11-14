@@ -1,0 +1,1 @@
+export default function Haberler({params:{locale}}:{params:{locale:string}}){const en=locale==='en';return (<div style={{padding:20}}><h1>{en?"News":"Haberler"}</h1><p>{en?"Announcements coming soon.":"Duyurular yakinda."}</p></div>);}

@@ -1,0 +1,1 @@
+export default function Uretim({params:{locale}}:{params:{locale:string}}){const en=locale==='en';return (<div style={{padding:20}}><h1>{en?"Factory":"Uretim Tesisi"}</h1><p>{en?"Custom size production with modern machinery.":"Modern makine parki ile ozel olcu uretim."}</p><ul><li>CNC</li><li>Metal Works</li><li>Assembly</li></ul></div>);}

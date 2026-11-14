@@ -1,0 +1,1 @@
+export default function Projeler({params:{locale}}:{params:{locale:string}}){const en=locale==='en';return (<div style={{padding:20}}><h1>{en?"Projects":"Projeler"}</h1><p>{en?"Reference projects coming soon.":"Referans projeler yakinda."}</p></div>);}
