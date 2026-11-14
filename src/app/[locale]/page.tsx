@@ -1,9 +1,14 @@
 import { db } from "@/lib/db";
 import Link from "next/link";
+export const dynamic = "force-dynamic";
 export default async function Home({params:{locale}}:{params:{locale:string}}) {
   const en = locale==='en';
-  const cats = await db.category.findMany({ orderBy: { order: "asc" } });
-  const one = await db.product.findMany({ where: { active: true }, take: 6, orderBy: { order: "asc" }, include:{category:true} });
+  let cats: any[] = [];
+  let one: any[] = [];
+  try {
+    cats = await db.category.findMany({ orderBy: { order: "asc" } });
+    one = await db.product.findMany({ where: { active: true }, take: 6, orderBy: { order: "asc" }, include:{category:true} });
+  } catch (e) { cats = []; one = []; }
   return (<div style={{padding:20}}><h1>Bodusan Mobilya</h1><p>{en?"Office, Educational, Hospital Furniture":"Ofis, Egitim, Hastane Mobilyalari"}</p>
   <div style={{display:"flex",gap:10}}>{cats.map((c) => (<Link key={c.id} href={`/${locale}/urunler?kategori=`+c.key} style={{border:"1px solid #ccc",padding:20,flex:1}}><b>{en?c.titleEn:c.titleTr}</b></Link>))}</div>
   <h2>{en?"Featured Products":"One Cikan Urunler"}</h2>
