@@ -18,5 +18,6 @@ export default async function LocaleLayout({children, params:{locale}}:{children
   <span style={{marginLeft:"auto"}}><Link href="/tr">TR</Link> | <Link href="/en">EN</Link></span>
   </nav>
   <NextIntlClientProvider messages={messages}>{children}</NextIntlClientProvider>
+  <footer style={{marginTop:30,borderTop:"1px solid #ccc",padding:12,textAlign:"center"}}><p>Bodusan Mobilya - info@bodusan.com - 0850 XXX XX XX</p><p><Link href="/tr">TR</Link> | <Link href="/en">EN</Link></p></footer>
   </>);
 }
