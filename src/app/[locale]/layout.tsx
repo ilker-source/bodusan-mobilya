@@ -4,7 +4,7 @@ import Link from "next/link";
 export default async function LocaleLayout({children, params:{locale}}:{children:React.ReactNode; params:{locale:string}}) {
   const messages = await getMessages();
   const en = locale==='en';
-  return (<html lang={locale}><body>
+  return (<>
   <nav style={{display:"flex",gap:12,padding:12,borderBottom:"1px solid #ccc"}}>
   <Link href={`/${locale}`}><b>Bodusan</b></Link>
   <Link href={`/${locale}/kurumsal`}>{en?"Corporate":"Kurumsal"}</Link>
@@ -18,5 +18,5 @@ export default async function LocaleLayout({children, params:{locale}}:{children
   <span style={{marginLeft:"auto"}}><Link href="/tr">TR</Link> | <Link href="/en">EN</Link></span>
   </nav>
   <NextIntlClientProvider messages={messages}>{children}</NextIntlClientProvider>
-  </body></html>);
+  </>);
 }
