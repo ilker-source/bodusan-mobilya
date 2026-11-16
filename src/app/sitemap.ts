@@ -1,1 +1,1 @@
-export default async function sitemap(){ const b="http://localhost:3000"; return [{url:b+"/tr"},{url:b+"/en"},{url:b+"/tr/urunler"},{url:b+"/en/urunler"}]; }
+export default function sitemap(){const base="https://bodusan-mobilya.vercel.app";const pages=["","/kurumsal","/urunler","/projeler","/uretim","/haberler","/iletisim","/teklif-al"];return pages.flatMap((p)=>[{url:base+"/tr"+p},{url:base+"/en"+p}]);}
