@@ -22,6 +22,9 @@ model Category {
   slugTr   String    @unique
   slugEn   String    @unique
   order    Int       @default(0)
+  parentId String?
+  parent   Category?  @relation("AltKategori", fields:[parentId], references:[id])
+  children Category[] @relation("AltKategori")
   products Product[]
 }
 
@@ -36,6 +39,12 @@ model Product {
   featured    Boolean        @default(false)
   active      Boolean        @default(true)
   order       Int            @default(0)
+  olcuTr    String @default("")
+  olcuEn    String @default("")
+  renkTr    String @default("")
+  renkEn    String @default("")
+  malzemeTr String @default("")
+  malzemeEn String @default("")
   categoryId  String
   category    Category       @relation(fields: [categoryId], references: [id])
   images      ProductImage[]
