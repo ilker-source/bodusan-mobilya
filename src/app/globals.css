@@ -22,6 +22,14 @@
     --radius: 1rem;
   }
   * { @apply border-border; }
-  body { @apply bg-background text-foreground; }
+  body { @apply bg-background text-foreground; margin:0; overflow-x:hidden; }
+  img { max-width:100%; height:auto; }
   .bg-navy { background-color: #24466E; }
+  .mobil-nav { display:flex; gap:14px; align-items:center; flex-wrap:wrap; }
+  .mobil-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:12px; }
+  @media (max-width: 640px) {
+    .mobil-nav { gap:8px; font-size:14px; padding:12px !important; }
+    .mobil-grid { grid-template-columns:repeat(2,1fr) !important; gap:8px !important; }
+    h1 { font-size:22px !important; }
+  }
 }
