@@ -13,13 +13,13 @@ export default async function Urunler({params:{locale}, searchParams}:{params:{l
   const urunler = await db.product.findMany({ include:{category:true, images:{orderBy:{order:"asc"}, take:1}}, where, orderBy:{order:"asc"}, skip:(sayfa-1)*adet, take:adet });
   const toplamSayfa = Math.max(1, Math.ceil(toplam/adet));
   const link = (s:number)=>`/${locale}/urunler?`+(k?`kategori=${k}&`:"")+`sayfa=${s}`;
-  return (<div>
-  <div style={{background:"#2E4A6B",color:"#fff",padding:"30px 20px",textAlign:"center",borderRadius:"0 0 20px 20px"}}><h1 style={{fontSize:28}}>{en?"Products":"Urunlerimiz"}</h1><p>{en?"Office, Educational, Hospital Furniture":"Ofis, Egitim, Hastane Mobilyalari"}</p></div>
+  return (<div style={{background:"#f1f3f6"}}>
+  <div style={{padding:"16px 20px 0"}}><div style={{background:"#24466E",color:"#fff",padding:"24px 20px",textAlign:"center",borderRadius:16}}><h1 style={{fontSize:24}}>{en?"Products":"Urunlerimiz"}</h1><p>{en?"Office, Educational, Hospital Furniture":"Ofis, Egitim, Hastane Mobilyalari"}</p></div></div>
   <div style={{padding:20}}>
-  <div style={{display:"flex",gap:8,margin:"10px 0",flexWrap:"wrap"}}><Link href={`/${locale}/urunler`} style={{border:"1px solid #2E4A6B",padding:"6px 14px",borderRadius:20}}>{en?"All":"Tumu"}</Link>{cats.map((c)=>(<Link key={c.id} href={`/${locale}/urunler?kategori=`+c.key} style={{border:"1px solid #2E4A6B",padding:"6px 14px",borderRadius:20}}>{en?c.titleEn:c.titleTr}</Link>))}</div>
+  <div style={{display:"flex",gap:8,margin:"10px 0",flexWrap:"wrap"}}><Link href={`/${locale}/urunler`} style={{border:"1px solid #24466E",background:"#fff",padding:"6px 14px",borderRadius:20}}>{en?"All":"Tumu"}</Link>{cats.map((c)=>(<Link key={c.id} href={`/${locale}/urunler?kategori=`+c.key} style={{border:"1px solid #24466E",background:"#fff",padding:"6px 14px",borderRadius:20}}>{en?c.titleEn:c.titleTr}</Link>))}</div>
   <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(180px,1fr))",gap:12}}>{urunler.map((u)=>{
     const kapak = u.images[0];
-    return (<div key={u.id} style={{border:"1px solid #ddd",borderRadius:16,overflow:"hidden"}}>{kapak && <Image src={duzelt(kapak.url)} alt={en?u.titleEn:u.titleTr} width={300} height={220} style={{width:"100%",height:140,objectFit:"cover",borderRadius:"16px 16px 0 0"}} loading="lazy" />}<div style={{padding:10}}><Link href={`/${locale}/urunler/`+(en?u.slugEn:u.slugTr)}><b>{en?u.titleEn:u.titleTr}</b></Link></div></div>);})}</div>
+    return (<div key={u.id} style={{border:"1px solid #ddd",background:"#fff",borderRadius:16,overflow:"hidden"}}>{kapak && <Image src={duzelt(kapak.url)} alt={en?u.titleEn:u.titleTr} width={300} height={220} style={{width:"100%",height:140,objectFit:"cover",borderRadius:"16px 16px 0 0"}} loading="lazy" />}<div style={{padding:10}}><Link href={`/${locale}/urunler/`+(en?u.slugEn:u.slugTr)}><b>{en?u.titleEn:u.titleTr}</b></Link></div></div>);})}</div>
   <div style={{display:"flex",gap:10,marginTop:16}}>{sayfa>1 && <Link href={link(sayfa-1)}>{"< "+(en?"Prev":"Onceki")}</Link>}<span>{sayfa} / {toplamSayfa}</span>{sayfa<toplamSayfa && <Link href={link(sayfa+1)}>{(en?"Next":"Sonraki")+" >"}</Link>}</div>
   </div></div>);
 }

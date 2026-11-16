@@ -5,7 +5,8 @@ export default async function LocaleLayout({children, params:{locale}}:{children
   const messages = await getMessages();
   const en = locale==='en';
   return (<>
-  <nav style={{display:"flex",gap:14,padding:"14px 20px",background:"#2E4A6B",color:"#fff",alignItems:"center",borderRadius:"0 0 16px 16px"}}>
+  <div style={{padding:"12px 20px 0",background:"#f1f3f6"}}>
+  <nav style={{display:"flex",gap:14,padding:"14px 20px",background:"#24466E",color:"#fff",alignItems:"center",borderRadius:16}}>
   <Link href={`/${locale}`} style={{color:"#fff"}}><b>Bodusan</b></Link>
   <Link href={`/${locale}/kurumsal`} style={{color:"#fff"}}>{en?"Corporate":"Kurumsal"}</Link>
   <Link href={`/${locale}/urunler`} style={{color:"#fff"}}>{en?"Products":"Urunler"}</Link>
@@ -17,7 +18,8 @@ export default async function LocaleLayout({children, params:{locale}}:{children
   <a href="/admin" style={{color:"#ddd"}}>Admin</a>
   <span style={{marginLeft:"auto"}}><Link href="/tr" style={{color:"#fff"}}>TR</Link> | <Link href="/en" style={{color:"#fff"}}>EN</Link></span>
   </nav>
+  </div>
   <NextIntlClientProvider messages={messages}>{children}</NextIntlClientProvider>
-  <footer style={{background:"#2E4A6B",color:"#fff",padding:20,marginTop:30,borderRadius:"16px 16px 0 0"}}><p>Bodusan Mobilya - info@bodusan.com - 0850 XXX XX XX</p></footer>
+  <footer style={{background:"#24466E",color:"#fff",padding:20,marginTop:30,borderRadius:"16px 16px 0 0"}}><p>Bodusan Mobilya - info@bodusan.com - 0850 XXX XX XX</p></footer>
   </>);
 }
