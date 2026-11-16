@@ -2,7 +2,7 @@ import Link from "next/link";
 export default function Uretim({params:{locale}}:{params:{locale:string}}){
 const en=locale==='en';
 const adres="Sırrıpaşa, Vatan Cd. No:137, 41900 Derince/Kocaeli";
-return (<div style={{padding:20,background:"rgba(180,210,235,0.35)",borderRadius:16,maxWidth:1000}}>
+return (<div style={{padding:20,background:"rgba(180,210,235,0.35)",borderRadius:16,maxWidth:1000,margin:"20px auto"}}>
 <h1 style={{background:"#24466E",color:"#fff",padding:16,borderRadius:16}}>{en?"Factory":"Uretim Tesisi"}</h1>
 {en?(<p>Our factory in Derince, Kocaeli works on 4500 m2 closed area with state-of-the-art machines.</p>):(<p>Kocaeli Derince fabrika 4500 m2 kapali alanda son teknoloji makineler ile calisiyor.</p>)}
 <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(220px,1fr))",gap:12,marginTop:12}}>
