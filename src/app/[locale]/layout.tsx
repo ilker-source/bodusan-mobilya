@@ -9,6 +9,6 @@ export default async function LocaleLayout({children, params:{locale}}:{children
   <Menu locale={locale} en={en} />
   </div>
   <NextIntlClientProvider messages={messages}>{children}</NextIntlClientProvider>
-  <footer style={{background:"#24466E",color:"#fff",padding:20,marginTop:30,borderRadius:"16px 16px 0 0"}}><p>Bodusan Mobilya - info@bodusan.com - 0850 XXX XX XX</p></footer>
+  <footer style={{background:"#24466E",color:"#fff",padding:20,marginTop:30,borderRadius:"16px 16px 0 0"}}><p>Bodusan Mobilya - Sırrıpaşa, Vatan Cd. No:137, 41900 Derince/Kocaeli - <a href="tel:+902622236810" style={{color:"#fff"}}>+90 262 223 68 10</a></p></footer>
   </>);
 }
