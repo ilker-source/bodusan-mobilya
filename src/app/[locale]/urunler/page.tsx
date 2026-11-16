@@ -15,8 +15,9 @@ export default async function Urunler({params:{locale}, searchParams}:{params:{l
   const link = (s:number)=>`/${locale}/urunler?`+(k?`kategori=${k}&`:"")+`sayfa=${s}`;
   return (<div style={{padding:20}}><h1>{en?"Products":"Urunlerimiz"}</h1>
   <div style={{display:"flex",gap:10,margin:"10px 0"}}><Link href={`/${locale}/urunler`}>{en?"All":"Tumu"}</Link>{cats.map((c)=>(<Link key={c.id} href={`/${locale}/urunler?kategori=`+c.key}>{en?c.titleEn:c.titleTr}</Link>))}</div>
-  <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(180px,1fr))",gap:12}}>{urunler.map((u)=>{
+  <div className="urun-grid" style={{display:"grid",gridTemplateColumns:"repeat(7,1fr)",gap:12}}>{urunler.map((u)=>{
     const kapak = u.images[0];
     return (<div key={u.id} style={{border:"1px solid #ccc",padding:8}}>{kapak && <Image src={duzelt(kapak.url)} alt={en?u.titleEn:u.titleTr} width={300} height={220} style={{width:"100%",height:140,objectFit:"cover"}} loading="lazy" />}<div><Link href={`/${locale}/urunler/`+(en?u.slugEn:u.slugTr)}><b>{en?u.titleEn:u.titleTr}</b></Link></div></div>);})}</div>
+  <style>{`@media(max-width:640px){.urun-grid{grid-template-columns:repeat(3,1fr) !important;}}`}</style>
   <div style={{display:"flex",gap:10,marginTop:16}}>{sayfa>1 && <Link href={link(sayfa-1)}>{"< "+(en?"Prev":"Onceki")}</Link>}<span>{sayfa} / {toplamSayfa}</span>{sayfa<toplamSayfa && <Link href={link(sayfa+1)}>{(en?"Next":"Sonraki")+" >"}</Link>}</div></div>);
 }

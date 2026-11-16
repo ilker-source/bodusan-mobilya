@@ -10,9 +10,10 @@ export default async function Home({params:{locale}}:{params:{locale:string}}) {
   return (<div style={{padding:20}}><h1>Bodusan Mobilya</h1><p>{en?"Office, Educational, Hospital Furniture":"Ofis, Egitim, Hastane Mobilyalari"}</p>
   <div style={{display:"flex",gap:10}}>{cats.map((c) => (<Link key={c.id} href={`/${locale}/urunler?kategori=`+c.key} style={{border:"1px solid #ccc",padding:20,flex:1}}><b>{en?c.titleEn:c.titleTr}</b></Link>))}</div>
   <h2>{en?"Featured Products":"One Cikan Urunler"}</h2>
-  <div style={{display:"grid",gridTemplateColumns:"repeat(7,1fr)",gap:12}}>{karisik.map((u)=>{
+  <div className="ana-grid" style={{display:"grid",gridTemplateColumns:"repeat(7,1fr)",gap:12}}>{karisik.map((u)=>{
     const kapak = u.images[0];
-    return (<div key={u.id} style={{border:"1px solid #ccc",padding:8}}>{kapak && <Image src={duzelt(kapak.url)} alt={en?u.titleEn:u.titleTr} width={300} height={220} style={{width:"100%",height:140,objectFit:"cover"}} loading="lazy" />}<div><Link href={`/${locale}/urunler/`+(en?u.slugEn:u.slugTr)}><b>{en?u.titleEn:u.titleTr}</b></Link></div></div>);})}</div>
+    return (<div key={u.id} className="ana-kart" style={{border:"1px solid #ccc",padding:8}}>{kapak && <Image src={duzelt(kapak.url)} alt={en?u.titleEn:u.titleTr} width={300} height={220} style={{width:"100%",height:140,objectFit:"cover"}} loading="lazy" />}<div><Link href={`/${locale}/urunler/`+(en?u.slugEn:u.slugTr)}><b>{en?u.titleEn:u.titleTr}</b></Link></div></div>);})}</div>
+  <style>{`@media(max-width:640px){.ana-grid{grid-template-columns:repeat(3,1fr) !important;}.ana-grid .ana-kart:nth-child(n+16){display:none;}}`}</style>
   <p><Link href={`/${locale}/urunler`}>{en?"All Products":"Tum Urunler"}</Link> | <Link href={`/${locale}/teklif-al`}>{en?"Get a Quote":"Teklif Al"}</Link></p>
   </div>);
 }
