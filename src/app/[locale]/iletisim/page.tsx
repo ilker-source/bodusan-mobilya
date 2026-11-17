@@ -11,7 +11,7 @@ await db.message.create({ data:{ type:"contact", name:String(formData.get("name"
 redirect(`/${loc}/iletisim?ok=1`);
 }
 const bg="rgba(180,210,235,0.35)";
-return (<div style={{padding:20,maxWidth:1000}}>
+return (<div style={{padding:20,maxWidth:1000,margin:"0 auto"}}>
 <h1 style={{background:"#24466E",color:"#fff",padding:16,borderRadius:16}}>{en?"Contact":"Iletisim"}</h1>
 {searchParams?.ok && <p style={{background:"#d4edda",padding:10,borderRadius:12}}>{en?"Sent successfully":"Gonderildi, tesekkurler"}</p>}
 <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(300px,1fr))",gap:16,marginTop:16}}>
