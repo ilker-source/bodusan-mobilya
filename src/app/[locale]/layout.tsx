@@ -12,7 +12,7 @@ export default async function LocaleLayout({children, params:{locale}}:{children
   <style>{`.urun-wrap{position:relative}.urun-drop{display:none;position:absolute;top:100%;left:0;background:#fff;border:1px solid #ddd;border-radius:12px;min-width:220px;box-shadow:0 8px 24px rgba(0,0,0,.12);z-index:50;padding:6px}.urun-wrap:hover .urun-drop{display:block}.urun-drop a{display:block;padding:8px 10px;border-radius:8px;color:#222;text-decoration:none;white-space:nowrap}.urun-drop a:hover{background:#eef3f8}`}</style>
   <div style={{padding:12}}>
   <nav style={{display:"flex",gap:14,padding:"12px 16px",background:"#24466E",color:"#fff",alignItems:"center",borderRadius:16}}>
-  <Link href={`/${locale}`} style={beyaz}><img src="/logo.png" alt="Bodusan Mobilya" style={{width:160,height:80,borderRadius:12,background:"#fff",padding:4}} /></Link>
+  <Link href={`/${locale}`} style={beyaz}><img src="/logo.png" alt="Bodusan Mobilya" style={{width:200,height:40,borderRadius:12,background:"#fff",padding:4}} /></Link>
   <Link href={`/${locale}/kurumsal`} style={beyaz}>{en?"Corporate":"Kurumsal"}</Link>
   <div className="urun-wrap"><Link href={`/${locale}/urunler`} style={beyaz}>{en?"Products":"Urunler"} ▾</Link><div className="urun-drop">{cats.map((c)=>(<Link key={c.id} href={`/${locale}/urunler?kategori=`+c.key}>{en?c.titleEn:c.titleTr}</Link>))}</div></div>
   <Link href={`/${locale}/projeler`} style={beyaz}>{en?"Projects":"Projeler"}</Link>
