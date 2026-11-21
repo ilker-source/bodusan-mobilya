@@ -54,7 +54,7 @@ export default async function LocaleLayout({
 
         @media(max-width:768px){
           .desktop-links{display:none !important}
-          .site-nav{padding-left:68px !important}
+          .site-nav{justify-content:center;min-height:88px}.site-nav>a:first-child{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%)}.site-nav>a:first-child img{width:min(256px,calc(100vw - 100px)) !important;height:64px !important}
           .mobil-menu{
             display:block !important;
             position:fixed;
