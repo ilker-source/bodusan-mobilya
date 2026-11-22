@@ -136,9 +136,9 @@ export default async function Home({
     <main className="home-page">
       <style>{`
         .home-page{max-width:1500px;margin:0 auto;padding:20px;color:#292d32}
-        .home-hero{display:grid;grid-template-columns:1.1fr .9fr;gap:28px;align-items:center;background:#24466E;color:#fff;padding:clamp(24px,5vw,64px);border-radius:24px;overflow:hidden}
+        .home-hero{display:grid;grid-template-columns:1.1fr .9fr;gap:28px;align-items:center;background:linear-gradient(135deg,rgba(36,70,110,.10),rgba(166,124,82,.12));color:#292d32;padding:clamp(24px,5vw,64px);border-radius:24px;overflow:hidden}
         .home-hero h1{font-size:clamp(34px,5vw,62px);line-height:1.08;margin:0 0 18px}
-        .home-hero p{font-size:clamp(16px,2vw,20px);line-height:1.7;color:#e7edf4;max-width:650px}
+        .home-hero p{font-size:clamp(16px,2vw,20px);line-height:1.7;color:#555d65;max-width:650px}
         .hero-image{position:relative;min-height:330px;border-radius:18px;overflow:hidden;background:#dfe5eb}
         .home-button{display:inline-block;background:#A67C52;color:#fff;padding:13px 22px;border-radius:14px;text-decoration:none;font-weight:700}
         .home-section{margin:64px 0}
