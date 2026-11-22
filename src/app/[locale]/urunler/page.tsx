@@ -67,6 +67,7 @@ export default async function Urunler({
 
   return (
     <main
+      className="products-page"
       style={{
         maxWidth: 1200,
         margin: "0 auto",
@@ -74,6 +75,17 @@ export default async function Urunler({
         color: "#30343b",
       }}
     >
+      <style>{`
+        .products-page .home-products{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:14px}
+        .products-page .product-card{overflow:hidden;background:#f5f3ef;border:1px solid #e5e1da;border-radius:16px;color:#292d32;text-decoration:none}
+        .products-page .product-photo{position:relative;height:170px;background:#e9e6df}
+        .products-page .product-copy{padding:12px}
+        .products-page .product-copy small{display:block;color:#77736c;margin-bottom:5px}
+        .products-page .product-copy strong{display:block;font-size:15px;line-height:1.4}
+        @media(max-width:1150px){.products-page .home-products{grid-template-columns:repeat(4,minmax(0,1fr))}.products-page .product-photo{height:190px}}
+        @media(max-width:760px){.products-page{padding-left:12px !important;padding-right:12px !important}.products-page .home-products{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.products-page .product-photo{height:150px}}
+        @media(max-width:390px){.products-page .home-products{grid-template-columns:1fr}.products-page .product-photo{height:210px}}
+      `}</style>
       <header style={{ marginBottom: 24 }}>
         <p
           style={{
@@ -169,92 +181,47 @@ export default async function Urunler({
         </p>
       ) : (
         <section
+          className="home-products"
           aria-label={en ? "Product gallery" : "Ürün galerisi"}
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 230px), 1fr))",
-            gap: 18,
-          }}
         >
-          {urunler.map((u) => {
-            const kapak = u.images[0];
-
-            return (
-              <article
-                key={u.id}
-                style={{
-                  overflow: "hidden",
-                  padding: 10,
-                  border: "1px solid #e5e1da",
-                  borderRadius: 18,
-                  background: "#f5f3ef",
-                  boxShadow: "0 3px 12px rgba(38, 35, 30, 0.06)",
-                }}
-              >
-                <Link
-                  href={`/${locale}/urunler/${en ? u.slugEn : u.slugTr}`}
-                  style={{ color: "inherit", textDecoration: "none" }}
-                >
-                  <div
+          {urunler.map((u, index) => (
+            <Link
+              className="product-card"
+              href={`/${locale}/urunler/${en ? u.slugEn : u.slugTr}`}
+              key={u.id}
+            >
+              <div className="product-photo">
+                {u.images[0] ? (
+                  <Image
+                    src={duzelt(u.images[0].url)}
+                    alt={en ? u.titleEn : u.titleTr}
+                    fill
+                    sizes="(max-width:390px) 100vw, (max-width:760px) 50vw, (max-width:1150px) 25vw, 14vw"
+                    priority={index < 2}
+                    style={{ objectFit: "cover" }}
+                  />
+                ) : (
+                  <span
                     style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      overflow: "hidden",
-                      height: 190,
-                      borderRadius: 12,
-                      background: "#e9e6df",
+                      display: "grid",
+                      height: "100%",
+                      placeItems: "center",
+                      color: "#77736c",
+                      fontSize: 14,
                     }}
                   >
-                    {kapak ? (
-                      <Image
-                        src={duzelt(kapak.url)}
-                        alt={en ? u.titleEn : u.titleTr}
-                        width={640}
-                        height={480}
-                        sizes="(max-width: 600px) 100vw, (max-width: 1000px) 50vw, 25vw"
-                        style={{
-                          width: "100%",
-                          height: "100%",
-                          objectFit: "cover",
-                        }}
-                        loading="lazy"
-                      />
-                    ) : (
-                      <span style={{ color: "#77736c", fontSize: 14 }}>
-                        {en ? "Image coming soon" : "Görsel yakında eklenecek"}
-                      </span>
-                    )}
-                  </div>
-
-                  <div style={{ padding: "13px 5px 5px" }}>
-                    {u.category && (
-                      <p
-                        style={{
-                          margin: "0 0 5px",
-                          color: "#77736c",
-                          fontSize: 12,
-                        }}
-                      >
-                        {en ? u.category.titleEn : u.category.titleTr}
-                      </p>
-                    )}
-
-                    <h2
-                      style={{
-                        margin: 0,
-                        color: "#292d32",
-                        fontSize: 17,
-                        lineHeight: 1.45,
-                      }}
-                    >
-                      {en ? u.titleEn : u.titleTr}
-                    </h2>
-                  </div>
-                </Link>
-              </article>
-            );
-          })}
+                    {en ? "Image coming soon" : "Görsel yakında eklenecek"}
+                  </span>
+                )}
+              </div>
+              <div className="product-copy">
+                {u.category && (
+                  <small>{en ? u.category.titleEn : u.category.titleTr}</small>
+                )}
+                <strong>{en ? u.titleEn : u.titleTr}</strong>
+              </div>
+            </Link>
+          ))}
         </section>
       )}
 
