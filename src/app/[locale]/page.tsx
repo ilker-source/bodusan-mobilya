@@ -193,17 +193,8 @@ export default async function Home({
           </Link>
         </div>
 
-        <div className="hero-image">
-          {vitrin[0]?.images[0] ? (
-            <Image
-              src={duzelt(vitrin[0].images[0].url)}
-              alt={en ? vitrin[0].titleEn : vitrin[0].titleTr}
-              fill
-              priority
-              sizes="(max-width:760px) 100vw, 45vw"
-              style={{ objectFit: "cover" }}
-            />
-          ) : null}
+        <div className="hero-image" style={{minHeight:420}}>
+          <Image src="/hero-fabrika.png" alt="Bodusan Derince fabrikası" fill priority sizes="(max-width:760px) 100vw, 45vw" style={{objectFit:"cover"}} />
         </div>
       </section>
 
