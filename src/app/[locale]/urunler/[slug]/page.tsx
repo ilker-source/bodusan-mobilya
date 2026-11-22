@@ -1,30 +1,189 @@
+// src/app/[locale]/urunler/[slug]/page.tsx
 import { db } from "@/lib/db";
 import Link from "next/link";
+import Image from "next/image";
 import Galeri from "./galeri";
-function duzelt(url: string){ return encodeURI(url.replace("/public","")); }
-function hash(s: string){ let h=0; for(let i=0;i<s.length;i++) h=(h*31+s.charCodeAt(i))>>>0; return h; }
-function sanatli(ad: string, en: boolean){
-  const h = hash(ad);
-  if(en){
-    const a=["carries Derince factory discipline into an artistic form","turns precise manufacturing into quiet sculpture","blends industrial strength with fine hand finishing","brings workshop patience together with modern design","transforms raw panels and metal into elegant furniture"];
-    const b=["Selected wood panels, steel frames and quality fabric pass through cutting, edge banding, welding, painting and assembly","From raw material supply around Kocaeli, drying, pressing, CNC cutting, sanding and lacquering shape every part","Metal skeleton, wooden surfaces and upholstery meet precise measurement, jointing, polishing and final control","Cutting, drilling, edge tape, powder coating and careful packaging follow each other step by step","Panels are rested, cut to size, edged, painted and mounted with ergonomic details"];
-    const c=["Designed for offices, schools and hospitals, it balances ergonomics, durability and timeless beauty for B2B projects since 1990","Made for intensive daily use, it offers long life, easy cleaning and calm aesthetics for public and private projects","With solid joints and balanced proportions, it serves meeting rooms, classrooms and waiting areas for many years","Its form supports posture, order and comfort while keeping maintenance simple for facility teams","Each detail reflects careful craftsmanship from Derince to Turkiye and export markets"];
-    return `${ad} ${a[h%5]}: ${b[(h>>3)%5]}. ${c[(h>>5)%5]}.`;
-  }
-  const g1=["Derince mobilyaci arayanlar icin sanatsal bir cevap uretir","Derince mobilya ureticisi olarak ince iscilikle sekillenir","Derince mobilya imalatcisi titizligiyle sanata donusur","Derince fabrikasinin disiplinini zarif bir forma tasir","Atolye sabrini modern tasarimla birlestirir"];
-  const g2=["Secilmis ahsap panel, celik iskelet ve kumas; kesim, kenar bandi, kaynak, boya ve montajdan gecer","Kocaeli cevresinden hammadde temini, kurutma, pres, CNC kesim, zimpara ve lake ile her parca olgunlasir","Metal karkas, ahsap yuzey ve doseme; hassas olcu, birlestirme, parlatma ve son kontrolle bulusur","Kesim, delme, kenar bantlama, toz boya ve ozenli paketleme adim adim birbirini izler","Paneller dinlendirilir, olcude kesilir, bantlanir, boyanir ve ergonomik detaylarla monte edilir"];
-  const g3=["Ofis, okul ve hastane kullanimi icin ergonomi, dayaniklilik ve sessiz guzellik sunar, 1990 dan beri B2B projelere uretilir","Yogun gunluk kullanim icin uzun omur, kolay temizlik ve sakin estetik saglar, kamu ve ozel projelere uygundur","Saglam birlesimleri ve dengeli oranlariyla toplanti, sinif ve bekleme alanlarinda yillarca hizmet eder","Formu durus, duzen ve konforu desteklerken bakimi kolay tutar, tesis ekiplerine rahatlik verir","Her detay Derince den Turkiye ye ve ihracata uzanan ozenli uretimin izini tasir"];
-  return `${ad} ${g1[h%5]}: ${g2[(h>>3)%5]}. ${g3[(h>>5)%5]}.`;
+
+function duzelt(url: string) {
+  return encodeURI(url.replace("/public", ""));
 }
-export default async function UrunDetay({params:{locale,slug}}:{params:{locale:string; slug:string}}) {
-  const en = locale==='en';
-  const u = await db.product.findFirst({ where:{OR:[{slugTr:slug},{slugEn:slug}]}, include:{category:true, images:{orderBy:{order:"asc"}}} });
-  if(!u) return (<div style={{padding:20}}><p>{en?"Product not found.":"Urun bulunamadi."}</p><Link href={`/${locale}/urunler`}>{en?"Back":"Geri"}</Link></div>);
-  const imgs = u.images.map(i=>duzelt(i.url));
-  const ad = en?u.titleEn:u.titleTr;
-  return (<div style={{padding:20,maxWidth:1000,margin:"0 auto"}}><h1 style={{background:"#24466E",color:"#fff",padding:16,borderRadius:16}}>{ad}</h1><p>{en?u.category?.titleEn:u.category?.titleTr}</p>
-  <div style={{display:"flex",gap:16,flexWrap:"wrap",alignItems:"flex-start"}}><div style={{flex:"1 1 420px",minWidth:280}}><Galeri imgs={imgs} ad={ad} /></div><div style={{flex:"1 1 280px",minWidth:260,border:"1px solid #e2e8f0",borderRadius:16,padding:12,background:"#fff"}}><div><b>{en?"Dimensions":"Ölçü"}:</b> {en?u.olcuEn:u.olcuTr || "-"}</div><div><b>{en?"Color":"Renk"}:</b> {en?u.renkEn:u.renkTr || "-"}</div><div><b>{en?"Material":"Malzeme"}:</b> {en?u.malzemeEn:u.malzemeTr || "-"}</div></div></div>
-  <p style={{marginTop:12}}>{en?u.descEn:u.descTr}</p>
-  <div style={{marginTop:12,background:"rgba(180,210,235,0.35)",borderRadius:16,padding:16}}><p>{sanatli(ad,en)}</p></div>
-  <p style={{marginTop:12}}><Link href={`/${locale}/urunler`}>{en?"Back":"Geri"}</Link> | <Link href={`/${locale}/teklif-al`}>{en?"Get a Quote":"Teklif Al"}</Link></p></div>);
+
+export default async function UrunDetay({
+  params: { locale, slug },
+}: {
+  params: { locale: string; slug: string };
+}) {
+  const en = locale === "en";
+
+  const u = await db.product.findFirst({
+    where: { OR: [{ slugTr: slug }, { slugEn: slug }] },
+    include: {
+      category: true,
+      images: { orderBy: { order: "asc" } },
+    },
+  });
+
+  if (!u) {
+    return (
+      <main className="detail-page">
+        <p>{en ? "Product not found." : "Ürün bulunamadı."}</p>
+        <Link href={`/${locale}/urunler`}>
+          {en ? "Back to products" : "Ürünlere dön"}
+        </Link>
+      </main>
+    );
+  }
+
+  const benzerUrunler = await db.product.findMany({
+    where: {
+      active: true,
+      categoryId: u.categoryId,
+      id: { not: u.id },
+    },
+    orderBy: { order: "asc" },
+    take: 4,
+    include: {
+      category: true,
+      images: { orderBy: { order: "asc" }, take: 1 },
+    },
+  });
+
+  const baslik = en ? u.titleEn : u.titleTr;
+  const kategori = en ? u.category?.titleEn : u.category?.titleTr;
+
+  return (
+    <main className="detail-page">
+      <style>{`
+        .detail-page{max-width:1200px;margin:0 auto;padding:28px 20px 52px;color:#292d32}
+        .detail-breadcrumb{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px;color:#69717a;font-size:14px}
+        .detail-breadcrumb a{color:#24466E;text-decoration:none}
+        .detail-hero{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(300px,.85fr);gap:28px;align-items:start}
+        .detail-gallery{padding:14px;background:#f5f3ef;border:1px solid #e5e1da;border-radius:20px;min-width:0}
+        .detail-info{padding:clamp(20px,3vw,34px);background:#f1f3f5;border:1px solid #e3e7eb;border-radius:20px}
+        .detail-category{display:inline-block;margin:0 0 12px;padding:7px 11px;background:#e2e9f0;color:#24466E;border-radius:999px;font-size:13px;font-weight:700}
+        .detail-info h1{margin:0 0 16px;color:#292d32;font-size:clamp(28px,4vw,42px);line-height:1.15}
+        .detail-description{color:#555d65;line-height:1.8;white-space:pre-line}
+        .detail-specs{display:grid;gap:0;margin:22px 0 24px;border:1px solid #dfe3e7;border-radius:14px;background:#fff;overflow:hidden}
+        .detail-spec{display:grid;grid-template-columns:120px 1fr;gap:12px;padding:13px 15px;border-bottom:1px solid #e8ebee}
+        .detail-spec:last-child{border-bottom:0}
+        .detail-spec strong{color:#24466E}
+        .detail-actions{display:flex;flex-wrap:wrap;gap:12px}
+        .detail-button{display:inline-block;padding:12px 18px;border-radius:12px;background:#24466E;color:#fff;text-decoration:none;font-weight:700}
+        .detail-secondary{display:inline-block;padding:11px 16px;border:1px solid #b9c3cd;border-radius:12px;color:#24466E;text-decoration:none;font-weight:600}
+        .detail-related{margin-top:58px}
+        .detail-related h2{margin:0 0 18px;font-size:clamp(23px,3vw,32px)}
+        .detail-related-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+        .detail-related-card{overflow:hidden;border:1px solid #e5e1da;border-radius:16px;background:#f5f3ef;color:#292d32;text-decoration:none}
+        .detail-related-photo{position:relative;height:170px;background:#e9e6df}
+        .detail-related-copy{padding:12px}
+        .detail-related-copy small{display:block;margin-bottom:5px;color:#77736c}
+        .detail-related-copy strong{line-height:1.4}
+        @media(max-width:800px){.detail-hero{grid-template-columns:1fr}.detail-related-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+        @media(max-width:480px){.detail-page{padding:20px 12px 40px}.detail-spec{grid-template-columns:95px 1fr}.detail-related-grid{gap:10px}.detail-related-photo{height:135px}.detail-related-copy{padding:10px}.detail-gallery{padding:8px}}
+      `}</style>
+
+      <nav className="detail-breadcrumb" aria-label={en ? "Breadcrumb" : "Sayfa yolu"}>
+        <Link href={`/${locale}`}>{en ? "Home" : "Ana Sayfa"}</Link>
+        <span aria-hidden="true">/</span>
+        <Link href={`/${locale}/urunler`}>{en ? "Products" : "Ürünler"}</Link>
+        {kategori && (
+          <>
+            <span aria-hidden="true">/</span>
+            <span>{kategori}</span>
+          </>
+        )}
+      </nav>
+
+      <section className="detail-hero">
+        <div className="detail-gallery">
+          {u.images.length > 0 ? (
+            <Galeri
+              imgs={u.images.map((image) => duzelt(image.url))}
+              ad={baslik}
+            />
+          ) : (
+            <div
+              style={{
+                minHeight: 280,
+                display: "grid",
+                placeItems: "center",
+                borderRadius: 14,
+                background: "#e9e6df",
+                color: "#77736c",
+              }}
+            >
+              {en ? "Product images coming soon" : "Ürün görselleri yakında eklenecek"}
+            </div>
+          )}
+        </div>
+
+        <div className="detail-info">
+          {kategori && <p className="detail-category">{kategori}</p>}
+          <h1>{baslik}</h1>
+          <div className="detail-description">
+            {en ? u.descEn : u.descTr}
+          </div>
+
+          <div className="detail-specs">
+            <div className="detail-spec">
+              <strong>{en ? "Dimensions" : "Ölçü"}</strong>
+              <span>{(en ? u.olcuEn : u.olcuTr) || "—"}</span>
+            </div>
+            <div className="detail-spec">
+              <strong>{en ? "Color" : "Renk"}</strong>
+              <span>{(en ? u.renkEn : u.renkTr) || "—"}</span>
+            </div>
+            <div className="detail-spec">
+              <strong>{en ? "Material" : "Malzeme"}</strong>
+              <span>{(en ? u.malzemeEn : u.malzemeTr) || "—"}</span>
+            </div>
+          </div>
+
+          <div className="detail-actions">
+            <Link className="detail-button" href={`/${locale}/teklif-al`}>
+              {en ? "Request a Quote" : "Teklif Al"}
+            </Link>
+            <Link className="detail-secondary" href={`/${locale}/iletisim`}>
+              {en ? "Contact Us" : "İletişime Geçin"}
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {benzerUrunler.length > 0 && (
+        <section className="detail-related">
+          <h2>{en ? "Related products" : "Benzer ürünler"}</h2>
+          <div className="detail-related-grid">
+            {benzerUrunler.map((urun) => (
+              <Link
+                className="detail-related-card"
+                href={`/${locale}/urunler/${en ? urun.slugEn : urun.slugTr}`}
+                key={urun.id}
+              >
+                <div className="detail-related-photo">
+                  {urun.images[0] && (
+                    <Image
+                      src={duzelt(urun.images[0].url)}
+                      alt={en ? urun.titleEn : urun.titleTr}
+                      fill
+                      sizes="(max-width:480px) 50vw, (max-width:800px) 50vw, 25vw"
+                      style={{ objectFit: "cover" }}
+                    />
+                  )}
+                </div>
+                <div className="detail-related-copy">
+                  {urun.category && (
+                    <small>
+                      {en ? urun.category.titleEn : urun.category.titleTr}
+                    </small>
+                  )}
+                  <strong>{en ? urun.titleEn : urun.titleTr}</strong>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
+    </main>
+  );
 }
