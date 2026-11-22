@@ -3,6 +3,7 @@ import { db } from "@/lib/db";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import Link from "next/link";
+import MobileMenu from "./MobileMenu";
 
 export default async function LocaleLayout({
   children,
@@ -166,33 +167,7 @@ export default async function LocaleLayout({
               {en ? "Get a Quote" : "Teklif Al"}
             </Link>
           </div>
-
-          <details className="mobil-menu">
-            <summary aria-label={en ? "Open menu" : "Menüyü aç"}>☰</summary>
-            <div>
-              <Link href={`/${locale}/kurumsal`}>
-                {en ? "Corporate" : "Kurumsal"}
-              </Link>
-              <Link href={`/${locale}/urunler`}>
-                {en ? "Products" : "Urunler"}
-              </Link>
-              <Link href={`/${locale}/projeler`}>
-                {en ? "Projects" : "Projeler"}
-              </Link>
-              <Link href={`/${locale}/uretim`}>
-                {en ? "Factory" : "Uretim"}
-              </Link>
-              <Link href={`/${locale}/haberler`}>
-                {en ? "News" : "Haberler"}
-              </Link>
-              <Link href={`/${locale}/iletisim`}>
-                {en ? "Contact" : "Iletisim"}
-              </Link>
-              <Link href={`/${locale}/teklif-al`}>
-                {en ? "Get a Quote" : "Teklif Al"}
-              </Link>
-            </div>
-          </details>
+          <MobileMenu locale={locale} en={en} />
 
           <span className="desktop-links" style={{ marginLeft: "auto" }}>
             <Link href="/tr" style={beyaz}>
