@@ -1,1 +1,1 @@
-export default function robots(){return {rules:{userAgent:"*",allow:"/"},sitemap:"https://bodusan-mobilya.vercel.app/sitemap.xml"};}
+export default function robots(){return {rules:{userAgent:"*",allow:"/"},sitemap:"https://bodusanmobilya.com/sitemap.xml"};}

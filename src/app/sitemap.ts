@@ -1,1 +1,1 @@
-export default function sitemap(){const base="https://bodusan-mobilya.vercel.app";const pages=["","/kurumsal","/urunler","/projeler","/uretim","/haberler","/iletisim","/teklif-al"];return pages.flatMap((p)=>[{url:base+"/tr"+p},{url:base+"/en"+p}]);}
+export default function sitemap(){const base="https://bodusanmobilya.com";const pages=["","/kurumsal","/urunler","/projeler","/uretim","/haberler","/iletisim","/teklif-al"];return pages.flatMap((p)=>[{url:base+"/tr"+p},{url:base+"/en"+p}]);}
