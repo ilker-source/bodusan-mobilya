@@ -1,3 +1,4 @@
+import { getSeoMetadata } from "@/lib/seo-metadata";
 // src/app/[locale]/urunler/page.tsx
 import { db } from "@/lib/db";
 import Link from "next/link";
@@ -5,6 +6,10 @@ import Image from "next/image";
 
 function duzelt(url: string) {
   return encodeURI(url.replace("/public", ""));
+}
+
+export function generateMetadata({ params }: { params: { locale: string } }) {
+  return getSeoMetadata("products", params.locale);
 }
 
 export default async function Urunler({

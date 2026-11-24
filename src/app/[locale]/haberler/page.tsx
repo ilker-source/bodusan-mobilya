@@ -1,1 +1,6 @@
+import { getSeoMetadata } from "@/lib/seo-metadata";
+export function generateMetadata({ params }: { params: { locale: string } }) {
+  return getSeoMetadata("news", params.locale);
+}
+
 export default function Haberler({params:{locale}}:{params:{locale:string}}){const en=locale==='en';return (<div style={{padding:20,maxWidth:1000,margin:"0 auto"}}><h1 style={{background:"#24466E",color:"#fff",padding:16,borderRadius:16}}>{en?"News":"Haberler"}</h1><div style={{border:"1px solid #e2e8f0",borderRadius:16,padding:16,background:"#fff",boxShadow:"0 1px 4px rgba(36,70,110,0.08)",marginTop:16}}>{en?(<p>News from our Derince factory will be published here.</p>):(<p>Derince fabrikamizdan haberler burada yayinlanacak.</p>)}</div></div>);}

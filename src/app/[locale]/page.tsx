@@ -1,3 +1,4 @@
+import { getSeoMetadata } from "@/lib/seo-metadata";
 // src/app/[locale]/page.tsx
 import { db } from "@/lib/db";
 import Link from "next/link";
@@ -16,6 +17,10 @@ function karistir<T>(liste: T[]): T[] {
     [sonuc[i], sonuc[j]] = [sonuc[j], sonuc[i]];
   }
   return sonuc;
+}
+
+export function generateMetadata({ params }: { params: { locale: string } }) {
+  return getSeoMetadata("home", params.locale);
 }
 
 export default async function Home({

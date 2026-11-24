@@ -1,3 +1,4 @@
+import { getSeoMetadata } from "@/lib/seo-metadata";
 // src/app/[locale]/urunler/[slug]/page.tsx
 import { db } from "@/lib/db";
 import Link from "next/link";
@@ -6,6 +7,35 @@ import Galeri from "./galeri";
 
 function duzelt(url: string) {
   return encodeURI(url.replace("/public", ""));
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { locale: string; slug: string };
+}) {
+  const en = params.locale === "en";
+  const product = await db.product.findFirst({
+    where: { OR: [{ slugTr: params.slug }, { slugEn: params.slug }] },
+  });
+
+  if (!product) {
+    return getSeoMetadata("products", params.locale);
+  }
+
+  const name = en ? product.titleEn : product.titleTr;
+  const rawDescription = en ? product.descEn : product.descTr;
+  const fallback = en
+    ? `Explore the ${name}, including its dimensions, colours and materials. Request a Bodusan project quote.`
+    : `${name} ürününü inceleyin. Ölçü, renk ve malzeme bilgilerine ulaşın; projeniz için Bodüsan’dan teklif isteyin.`;
+  const description = (rawDescription?.trim() || fallback)
+    .replace(/\\s+/g, " ")
+    .slice(0, 160);
+
+  return {
+    title: `${name} | ${en ? "Bodusan Furniture" : "Bodüsan Mobilya"}`,
+    description,
+  };
 }
 
 export default async function UrunDetay({

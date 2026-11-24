@@ -1,5 +1,10 @@
+import { getSeoMetadata } from "@/lib/seo-metadata";
 import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
+export function generateMetadata({ params }: { params: { locale: string } }) {
+  return getSeoMetadata("contact", params.locale);
+}
+
 export default function Iletisim({params:{locale}, searchParams}:{params:{locale:string}; searchParams:{ok?:string}}) {
 const en=locale==='en';
 async function gonder(formData: FormData){

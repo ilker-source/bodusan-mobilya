@@ -1,4 +1,9 @@
+import { getSeoMetadata } from "@/lib/seo-metadata";
 import Link from "next/link";
+export function generateMetadata({ params }: { params: { locale: string } }) {
+  return getSeoMetadata("projects", params.locale);
+}
+
 export default function Projeler({params:{locale}}:{params:{locale:string}}){
 const en=locale==='en';
 const refs=["Aile ve Sosyal Hizmetler Bakanligi","Genclik ve Spor Bakanligi","Vergi Denetim Kurulu Baskanligi - Istanbul","Vergi Denetim Kurulu Baskanligi - Ankara","Vergi Denetim Kurulu Baskanligi - Izmir","Vergi Denetim Kurulu Baskanligi - Gaziantep","Vergi Denetim Kurulu Baskanligi - Hatay","Vergi Denetim Kurulu Baskanligi - Kayseri","Vergi Denetim Kurulu Baskanligi - Mugla","Bakirkoy Prof. Dr. Mazhar Osman Ruh Sagligi ve Sinir Hastaliklari Egitim ve Arastirma Hastanesi","Sakarya Devlet Hastanesi","Vatan Vergi Dairesi","Milli Saraylar Idaresi Baskanligi - Dolmabahce Sarayi","Kocaeli Universitesi","Sakarya Universitesi","Burdur Universitesi","Kutahya Dumlupinar Universitesi","Kocaeli Buyuksehir Belediyesi","Milli Egitim Bakanligi - Egitim Arac Gerecleri Daire Baskanligi","Balmumcu Jandarma Sosyal Tesisleri","Deniz Harp Okulu - Heybeliada","Kuleli Askeri Lisesi","Milli Savunma Universitesi - Levent Maltepe","Gaziantep Polis Evi","Yozgat Il Emniyet Mudurlugu","Turkiye Belediyeler Birligi - Ankara"];

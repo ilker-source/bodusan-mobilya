@@ -1,4 +1,9 @@
+import { getSeoMetadata } from "@/lib/seo-metadata";
 import Link from "next/link";
+export function generateMetadata({ params }: { params: { locale: string } }) {
+  return getSeoMetadata("factory", params.locale);
+}
+
 export default function Uretim({params:{locale}}:{params:{locale:string}}){
 const en=locale==='en';
 const adres="Sırrıpaşa, Vatan Cd. No:137, 41900 Derince/Kocaeli";
