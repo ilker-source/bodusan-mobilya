@@ -30,67 +30,15 @@ export default async function Home({
 }) {
   const en = locale === "en";
 
-  const [urunler, cats] = await Promise.all([
-    db.product.findMany({
-      where: { active: true },
-      include: {
-        category: true,
-        images: { orderBy: { order: "asc" }, take: 1 },
-      },
-    }),
-    db.category.findMany({ orderBy: { order: "asc" } }),
-  ]);
+  const urunler = await db.product.findMany({
+    where: { active: true },
+    include: {
+      category: true,
+      images: { orderBy: { order: "asc" }, take: 1 },
+    },
+  });
 
   const vitrin = karistir(urunler).slice(0, 21);
-
-  const kategoriTanimlari = [
-    {
-      key: "ofis",
-      terms: ["ofis", "office"],
-      tr: "Ofis Mobilyaları",
-      en: "Office Furniture",
-      textTr: "Çalışma alanları ve kurumsal ofisler için mobilya çözümleri.",
-      textEn: "Furniture solutions for offices and professional workspaces.",
-    },
-    {
-      key: "egitim",
-      terms: ["eğitim", "egitim", "education", "school"],
-      tr: "Eğitim Mobilyaları",
-      en: "Education Furniture",
-      textTr: "Okullar ve eğitim kurumları için kullanışlı, dayanıklı ürünler.",
-      textEn: "Practical, durable furniture for schools and educational spaces.",
-    },
-    {
-      key: "hastane",
-      terms: ["hastane", "sağlık", "saglik", "hospital", "health"],
-      tr: "Hastane Mobilyaları",
-      en: "Hospital Furniture",
-      textTr: "Sağlık kurumlarının ihtiyaçlarına yönelik mobilya grupları.",
-      textEn: "Furniture groups designed for healthcare environments.",
-    },
-  ];
-
-  const kategoriler = kategoriTanimlari.map((t) => {
-    const bulunan = cats.find((c) => {
-      const key = c.key.toLocaleLowerCase("tr-TR");
-      const baslik = c.titleTr.toLocaleLowerCase("tr-TR");
-      return t.terms.some((term) => key.includes(term) || baslik.includes(term));
-    });
-
-    const urun = urunler.find((u) => {
-      const baslik = u.category?.titleTr.toLocaleLowerCase("tr-TR") || "";
-      return (
-        u.images[0] &&
-        t.terms.some((term) => baslik.includes(term))
-      );
-    });
-
-    return {
-      ...t,
-      href: `/${locale}/urunler?kategori=${encodeURIComponent(bulunan?.key || t.key)}`,
-      image: urun?.images[0] ? duzelt(urun.images[0].url) : null,
-    };
-  });
 
   const basliklar = en
     ? [
@@ -203,39 +151,6 @@ export default async function Home({
         </div>
       </section>
 
-      <section className="home-section">
-        <div className="section-heading">
-          <h2>{en ? "Furniture for every project" : "Her projeye uygun mobilya grupları"}</h2>
-          <p>
-            {en
-              ? "Explore our main product groups and find the right direction for your project."
-              : "Ana ürün gruplarımızı inceleyerek projenize uygun çözümleri keşfedin."}
-          </p>
-        </div>
-
-        <div className="category-grid">
-          {kategoriler.map((c) => (
-            <Link className="category-card" href={c.href} key={c.key}>
-              {c.image && (
-                <div className="category-photo">
-                  <Image
-                    src={c.image}
-                    alt={en ? c.en : c.tr}
-                    fill
-                    sizes="(max-width:760px) 100vw, 33vw"
-                    style={{ objectFit: "cover" }}
-                  />
-                </div>
-              )}
-              <div className="category-shade" />
-              <div className="category-copy">
-                <h3>{en ? c.en : c.tr}</h3>
-                <p>{en ? c.textEn : c.textTr}</p>
-              </div>
-            </Link>
-          ))}
-        </div>
-      </section>
 
       <section className="home-section stats-grid" aria-label={en ? "Bodusan in numbers" : "Rakamlarla Bodüsan"}>
         <div className="stat-card">
