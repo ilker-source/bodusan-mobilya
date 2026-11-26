@@ -13,6 +13,38 @@ export default function RootLayout({
         {children}
 
         <a
+          href="tel:+902622236810"
+          aria-label="Bodüsan Mobilya'yı telefonla ara"
+          title="Bodüsan Mobilya'yı ara"
+          style={{
+            position: "fixed",
+            left: 20,
+            bottom: 20,
+            zIndex: 1000,
+            display: "inline-flex",
+            width: 56,
+            height: 56,
+            alignItems: "center",
+            justifyContent: "center",
+            borderRadius: "50%",
+            background: "#24466E",
+            color: "#fff",
+            textDecoration: "none",
+            boxShadow: "0 4px 14px rgba(0,0,0,.22)",
+          }}
+        >
+          <svg
+            width="23"
+            height="23"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.01-.24c1.12.37 2.33.57 3.58.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.61 21 3 13.39 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.46.57 3.59a1 1 0 0 1-.25 1.01l-2.2 2.19z" />
+          </svg>
+        </a>
+
+        <a
           href="https://wa.me/905435731627"
           target="_blank"
           rel="noopener noreferrer"
